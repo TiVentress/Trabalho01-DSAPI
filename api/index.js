@@ -1,3 +1,5 @@
+// Conexão com o servidor
+
 const restify = require("restify");
 const errors = require("restify-errors")
 
@@ -14,6 +16,8 @@ servidor.listen(8001, function(){
     console.log("%s executando em %s", servidor.name, servidor.url);
 });
 
+// Conexão com o banco de dados
+
 var knex = require('knex')({
     client: 'mysql',
     connection: {
@@ -24,9 +28,13 @@ var knex = require('knex')({
     }
 });
 
+// Get de boas vindas
+
 servidor.get('/', (req, res, next) => {
     res.send('Bem-vindo(a) à API loja');   
 });
+
+// Get para mostrar todos os produtos
 
 servidor.get('/produtos', (req, res, next) => {
     knex('produtos').then((dados) =>{
@@ -34,6 +42,8 @@ servidor.get('/produtos', (req, res, next) => {
     },next);
     
 });
+
+// Get para mostrar os produtos por id
 
 servidor.get('/produtos/:id', (req, res, next) => {
     const idProduto = req.params.id;
@@ -48,6 +58,7 @@ servidor.get('/produtos/:id', (req, res, next) => {
     },next);
 });
 
+// Post para cadastrar clientes
 
 servidor.post('/clientes', (req, res, next) => {
     const idProd = req.params.idProd;
@@ -57,12 +68,21 @@ servidor.post('/clientes', (req, res, next) => {
     .then((dados) =>{
         res.send(dados);
     },next);
-    
 });
 
 
 
+// admins
 
+// servidor.post('/clientes', (req, res, next) => {
+//     const idProd = req.params.idProd;
+//     knex('clientes')
+//     .where('id', idProd)
+//     .insert(req.body)
+//     .then((dados) =>{
+//         res.send(dados);
+//     },next);
+// });
 
 servidor.put('/produtos/:idProd', (req, res, next) => {
     const idProd = req.params.idProd;
