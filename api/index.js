@@ -57,21 +57,78 @@ servidor.get('/produtos/:id', (req, res, next) => {
     },next);
 });
 
-// Post para cadastrar clientes
+// Post para Cadastrar clientes
 
 servidor.post('/clientes', (req, res, next) => {
-    const idProd = req.params.idProd;
     knex('clientes')
-    .where('id', idProd)
-    .insert(req.body)
+      .insert(req.body)
+      .then(() => {
+        res.send('Cliente cadastrado com sucesso');
+      })
+  });
+
+
+// Get para mostrar todos os clientes
+
+servidor.get('/clientes', (req, res, next) => {
+    knex('clientes').then((dados) =>{
+        res.send(dados);
+    },next); 
+});
+
+// Get para mostrar clientes por id
+
+servidor.get('/clientes/:id', (req, res, next) => {
+    const idProduto = req.params.id;
+    knex('clientes')
+    .where('id', idProduto)
+    .first()
     .then((dados) =>{
+        if(!dados){
+            return res.send(new errors.BadRequestError('Este cliente não foi encontrado'))
+        }
         res.send(dados);
     },next);
 });
 
+// Post para cadastrar pedido
 
+servidor.post('/pedidos', (req, res, next) => {
+    const idProd = req.params.id;
+        knex('pedidos')
+        .where('id', idProd)
+        .insert(req.body)
+        .then((dados) =>{
+            res.send('Pedido Cadastrado com Sucesso')
+        },next);
+ });
+
+// Get para mostrar todos os pedidos
+
+servidor.get('/pedidos', (req, res, next) => {
+    knex('pedidos').then((dados) =>{
+        res.send(dados);
+    },next); 
+});
+
+// Get para mostrar pedidos por id
+
+servidor.get('/pedidos/:id', (req, res, next) => {
+    const idProduto = req.params.id;
+    knex('pedidos')
+    .where('id', idProduto)
+    .first()
+    .then((dados) =>{
+        if(!dados){
+            return res.send(new errors.BadRequestError('Este pedido não foi encontrado'))
+        }
+        res.send(dados);
+    },next);
+});
 
 // admins
+
+// Cadastrar produtos
 
 servidor.post('/admin/produtos', (req, res, next) => {
     const idProd = req.params.id;
@@ -79,9 +136,11 @@ servidor.post('/admin/produtos', (req, res, next) => {
         .where('id', idProd)
         .insert(req.body)
         .then((dados) =>{
-        res.send(dados);
+            res.send('Produto Cadastrado com Sucesso')
         },next);
  });
+
+// Atualizar Produtos
 
 servidor.put('/admin/produtos/:id', (req, res, next) => {
     const idProd = req.params.id;
@@ -95,6 +154,8 @@ servidor.put('/admin/produtos/:id', (req, res, next) => {
         res.send('Produto atualizado');
     },next);
 });
+
+// Deletar Produtos
 
 servidor.del('/admin/produtos/:id', (req, res, next) => {
     const idProd = req.params.id;
