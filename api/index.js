@@ -39,8 +39,7 @@ servidor.get('/', (req, res, next) => {
 servidor.get('/produtos', (req, res, next) => {
     knex('produtos').then((dados) =>{
         res.send(dados);
-    },next);
-    
+    },next); 
 });
 
 // Get para mostrar os produtos por id
@@ -74,20 +73,20 @@ servidor.post('/clientes', (req, res, next) => {
 
 // admins
 
-// servidor.post('/clientes', (req, res, next) => {
-//     const idProd = req.params.idProd;
-//     knex('clientes')
-//     .where('id', idProd)
-//     .insert(req.body)
-//     .then((dados) =>{
-//         res.send(dados);
-//     },next);
-// });
+servidor.post('/admin/produtos', (req, res, next) => {
+    const idProd = req.params.id;
+        knex('produtos')
+        .where('id', idProd)
+        .insert(req.body)
+        .then((dados) =>{
+        res.send(dados);
+        },next);
+ });
 
-servidor.put('/produtos/:idProd', (req, res, next) => {
-    const idProd = req.params.idProd;
-    knex('produto')
-    .where('id', idProduto)
+servidor.put('/admin/produtos/:id', (req, res, next) => {
+    const idProd = req.params.id;
+    knex('produtos')
+    .where('id', idProd)
     .update(req.body)
     .then((dados) =>{
         if(!dados){
@@ -95,13 +94,12 @@ servidor.put('/produtos/:idProd', (req, res, next) => {
         }
         res.send('Produto atualizado');
     },next);
-
 });
 
-servidor.del('/produtos/:idProd', (req, res, next) => {
-    const idProd = req.params.idProd;
-    knex('produto')
-    .where('id', idProduto)
+servidor.del('/admin/produtos/:id', (req, res, next) => {
+    const idProd = req.params.id;
+    knex('produtos')
+    .where('id', idProd)
     .delete()
     .then((dados) =>{
         if(!dados){
@@ -109,5 +107,4 @@ servidor.del('/produtos/:idProd', (req, res, next) => {
         }
         res.send('Produto deletado');
     },next);
-
 });
