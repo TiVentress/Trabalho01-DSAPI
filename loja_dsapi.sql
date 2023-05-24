@@ -49,7 +49,7 @@ CREATE table pedidos_produtos (
 INSERT INTO cidades(nome) 
 VALUES ('Porto Alegre'), ('Alvorada'), ('Cachoeirinha');
 INSERT INTO clientes(nome, altura, nascimento, cidade_id)
-VALUES ('Tiago', '1.65', '1990/12/04', '2'), ('Natália', '1.60', '2005/01/02', '1'), ('Marco', '1.55', '1986/04/20', '3')
+VALUES ('Tiago', '1.65', '1990/12/04', '2'), ('Natália', '1.60', '2005/01/02', '1'), ('Marco', '1.55', '1986/04/20', '3');
 INSERT INTO categorias(nome)
 VALUES ('jogos'), ('livros'), ('esportes');
 INSERT INTO produtos(nome, preco, quantidade, categoria_id)
